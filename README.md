@@ -22,8 +22,8 @@ rails db:{drop,create,migrate,seed}
 </div>
 
 ## Database
-This API stores data in a PostgreSQL database with three tables, namely `customers`, `subscriptions`, and `teas`. A 
-many-to-many relationship exists between subscriptions and teas via the joins table `subscription_teas`
+This API stores data in a PostgreSQL database with four tables, `customers`, `subscriptions`, `subscription_teas` and `teas`. In this relational database, customers have many subscriptions and subscriptions belong to a single customer. A 
+many-to-many relationship exists between subscriptions and teas via the joins table `subscription_teas`.
 
 ![](./database_schema.png)
 
