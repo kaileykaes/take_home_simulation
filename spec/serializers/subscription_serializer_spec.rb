@@ -41,6 +41,7 @@ RSpec.describe 'Subscription Serializer' do
         check_hash_structure(subscription[:attributes], :customer_id, Integer)
         check_hash_structure(subscription[:attributes], :created_at, String)
         check_hash_structure(subscription[:attributes], :updated_at, String)
+        check_hash_structure(subscription[:attributes], :teas, Array)
       end
     end
     
@@ -64,6 +65,16 @@ RSpec.describe 'Subscription Serializer' do
       check_hash_structure(single_subscription[:attributes], :customer_id, Integer)
       check_hash_structure(single_subscription[:attributes], :created_at, String)
       check_hash_structure(single_subscription[:attributes], :updated_at, String)
+      check_hash_structure(single_subscription[:attributes], :teas, Array)
+
+      teas = single_subscription[:attributes][:teas]
+
+      teas.each do |tea|
+        check_hash_structure(tea, :id, Integer)
+        check_hash_structure(tea, :name, String)
+        check_hash_structure(tea, :price, Float)
+        check_hash_structure(tea, :description, String)
+      end
     end
   end
 end
