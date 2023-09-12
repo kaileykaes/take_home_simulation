@@ -3,4 +3,8 @@ class Subscription < ApplicationRecord
   has_many :subscription_teas
   has_many :teas, through: :subscription_teas
   enum status: { inactive: 0, active: 1 }
+
+  def cost
+    teas.sum(:price)
+  end
 end
