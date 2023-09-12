@@ -21,7 +21,7 @@ RSpec.describe 'Subscription Serializer' do
 
   describe 'serialization' do
     it 'serializes collection' do 
-      subscriptions = Subscription.where(user: @user)
+      subscriptions = Subscription.where(customer: @customer)
       serialized = SubscriptionSerializer.new(subscriptions, is_collection: true).serializable_hash.to_json
 
       parsed = JSON.parse(serialized, symbolize_names: true)
