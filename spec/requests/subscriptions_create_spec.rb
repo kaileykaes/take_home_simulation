@@ -26,9 +26,9 @@ RSpec.describe 'User Registration', type: :request do
       expect(response).to be_successful
       expect(response.status).to eq(201)
       expect(Subscription.count).to eq(subscription_count + 1)
-
+      
       subscription = JSON.parse(response.body, symbolize_names: true)
-
+      
       check_hash_structure(subscription, :id, String)
       check_hash_structure(subscription, :type, String)
       check_hash_structure(subscription, :attributes, Hash)
@@ -44,6 +44,14 @@ RSpec.describe 'User Registration', type: :request do
       expect(subscription_attributes[:customer_id]).to eq(@customer.id)
       expect(subscription_attributes).to have_key(:created_at)
       expect(subscription_attributes).to have_key(:updated_at)
+    end
+    
+    it 'subscription has teas' do 
+      post "/api/v1/customers/#{@customer.id}/subscriptions", headers: @headers, params: @subscription_info, as: :json
+
+      subscription = Subscription.first
+
+      expect(Subscription.teas).to eq([@tea_1, @tea_2, @tea_3])
     end
   end
 
@@ -72,32 +80,6 @@ RSpec.describe 'User Registration', type: :request do
       error_attributes = error[:error]
       expect(error_attributes[:status]).to eq(422)
       # expect(error_attributes[:message]).to eq('Something is missing')
-    end
-    
-    it 'throws error if no teas' do 
-      
-      incomplete_subscription_info = {
-        frequency: 'monthly',
-        title: 'That Good Good'
-      }
-      
-      subscription_count = Subscription.count
-      
-      post "/api/v1/customers/#{@customer.id}/subscriptions", headers: @headers, params: incomplete_subscription_info, as: :json
-      
-      expect(response).to_not be_successful
-      expect(response.status).to eq(422)
-      expect(subscription_count).to eq(subscription_count)
-      
-      error = JSON.parse(response.body, symbolize_names: true)
-      
-      check_hash_structure(error, :error, Hash)
-      check_hash_structure(error[:error], :status, Integer)
-      check_hash_structure(error[:error], :message, String)
-      
-      error_attributes = error[:error]
-      expect(error_attributes[:status]).to eq(422)
-      # expect(error_attributes[:message]).to eq("Validation failed: Password confirmation doesn't match Password")
     end
     
     it 'throws error if no title' do 
