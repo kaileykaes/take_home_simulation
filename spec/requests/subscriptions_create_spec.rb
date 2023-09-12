@@ -27,8 +27,8 @@ RSpec.describe 'User Registration', type: :request do
       expect(response.status).to eq(201)
       expect(Subscription.count).to eq(subscription_count + 1)
       
-      subscription = JSON.parse(response.body, symbolize_names: true)
-      
+      subscription = JSON.parse(response.body, symbolize_names: true)[:data]
+
       check_hash_structure(subscription, :id, String)
       check_hash_structure(subscription, :type, String)
       check_hash_structure(subscription, :attributes, Hash)
@@ -51,7 +51,7 @@ RSpec.describe 'User Registration', type: :request do
 
       subscription = Subscription.first
 
-      expect(Subscription.teas).to eq([@tea_1, @tea_2, @tea_3])
+      expect(subscription.teas).to eq([@tea_1, @tea_2, @tea_3])
     end
   end
 
