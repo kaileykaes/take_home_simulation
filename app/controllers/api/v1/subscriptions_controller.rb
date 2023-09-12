@@ -12,17 +12,17 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
   end
 
   private
-    def subscription_params
-      params.permit(:frequency, :title, :customer_id)
-    end
+  def subscription_params
+    params.permit(:frequency, :title, :customer_id)
+  end
 
-    def tea_attachment(subscription)
-      teas.each do |tea|
-        SubscriptionTea.create!(subscription_id: subscription.id, tea_id: tea[:id])
-      end
+  def tea_attachment(subscription)
+    teas.each do |tea|
+      SubscriptionTea.create!(subscription_id: subscription.id, tea_id: tea[:id])
     end
+  end
 
-    def teas
-      params[:teas]
-    end
+  def teas
+    params[:teas]
+  end
 end
