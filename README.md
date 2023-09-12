@@ -130,7 +130,7 @@ This endpoint returns JSON for every subscription that belongs to a customer, ac
 }
 ```
 
-#### Subscription Cancellation
+#### Subscription Cancellation:
 In order to cancel a tea subscription, make a patch request with the query parameter `status=inactive` to the following endpoint: 
 
 ```
@@ -138,7 +138,7 @@ PATCH /api/v1/customers/:customer_id/subscriptions/:subscription_id?status=inact
 ```
 This will return a JSON object for the updated subscription record. 
 
-#### Subscription Creation
+#### Subscription Creation:
 To create a new subscription, the following info must be passed in the request body as a JSON payload: 
 
 ```
