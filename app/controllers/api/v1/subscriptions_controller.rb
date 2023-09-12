@@ -15,7 +15,6 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
 
   def update
     @subscription.update(subscription_params)
-    # require 'pry'; binding.pry
     render json: SubscriptionSerializer.new(@subscription)
   end
 
