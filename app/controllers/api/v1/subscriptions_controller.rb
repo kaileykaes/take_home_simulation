@@ -1,4 +1,4 @@
-class Api::V1::SubscriptionsController < ApplicationController
+class Api::V1::SubscriptionsController < Api::V1::BaseController
   def index
     subscriptions = Subscription.all.where(customer_id: params[:customer_id])
     render json: SubscriptionSerializer.new(subscriptions, is_collection: true).serializable_hash.to_json
@@ -6,7 +6,6 @@ class Api::V1::SubscriptionsController < ApplicationController
 
   def create
     response.status = 201
-    require 'pry'; binding.pry
     subscription = Subscription.create!(subscription_params)
     tea_attachment(subscription)
     render json: SubscriptionSerializer.new(subscription)
