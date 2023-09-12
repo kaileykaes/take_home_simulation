@@ -46,7 +46,7 @@ RSpec.describe 'Subscription Serializer' do
     
     it 'serializes a single subscription' do 
       subscription = Subscription.first
-      serialized = FavoriteSerializer.new(subscription).serializable_hash.to_json
+      serialized = SubscriptionSerializer.new(subscription).serializable_hash.to_json
 
       parsed = JSON.parse(serialized, symbolize_names: true)
       check_hash_structure(parsed, :data, Hash)
