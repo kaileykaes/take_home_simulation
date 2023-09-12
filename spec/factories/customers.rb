@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :customer do
-    name { "MyString" }
-    email { "MyString" }
-    address { "MyString" }
+    name { Faker::Music::Hiphop.artist }
+    email { Faker::Internet.email }
+    address { Faker::Address.full_address }
   end
 end

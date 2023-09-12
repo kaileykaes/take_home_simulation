@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :subscription_tea do
-    subscriptions { nil }
-    teas { nil }
+    subscription { nil }
+    tea { nil }
   end
 end

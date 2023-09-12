@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :tea do
-    name { "MyString" }
-    price { 1.5 }
-    description { "MyString" }
+    name { Faker::Tea.variety }
+    price { Faker::Number.decimal(l_digits: 2, ) }
+    description { Faker::Movies::Hobbit.quote }
   end
 end
