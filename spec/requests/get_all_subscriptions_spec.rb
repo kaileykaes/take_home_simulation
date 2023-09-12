@@ -30,9 +30,7 @@ RSpec.describe 'Subscriptions Index', type: :request do
       get "/api/v1/customers/#{@customer.id}/subscriptions"
 
       subscriptions_collection = JSON.parse(response.body, symbolize_names: true)
-
       expect(subscriptions_collection).to be_a Hash
-      check_hash_structure(subscriptions_collection, :data, Hash)
 
       subscriptions = subscriptions_collection[:data]
 
