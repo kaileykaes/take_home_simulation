@@ -44,6 +44,7 @@ RSpec.describe 'User Registration', type: :request do
       expect(subscription_attributes[:customer_id]).to eq(@customer.id)
       expect(subscription_attributes).to have_key(:created_at)
       expect(subscription_attributes).to have_key(:updated_at)
+      expect(subscription_attributes).to have_key(:teas)
     end
     
     it 'subscription has teas' do 
