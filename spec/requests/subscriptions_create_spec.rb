@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'User Registration', type: :request do
+RSpec.describe 'Subscription Creation', type: :request do
   before(:each) do
     @tea_1 = create(:tea)
     @tea_2 = create(:tea)
