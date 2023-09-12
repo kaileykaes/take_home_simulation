@@ -5,4 +5,10 @@ class Api::V1::BaseController < ApplicationController
     render json: ErrorSerializer.serialize_error(error, 422)
     response.status = 422
   end
+  
+  def success_message
+    {
+      success: "Success! 😄"
+    }
+  end
 end

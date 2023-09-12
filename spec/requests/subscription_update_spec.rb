@@ -23,17 +23,22 @@ RSpec.describe 'Subscription Cancellation', type: :request do
   describe 'happy path' do
     it 'cancels existing subscription' do 
       params = {
-        status: 0
+        status: 'inactive'
       }
   
       put "/api/v1/customers/#{@customer.id}/subscriptions/#{@subscription_1.id}", params: params
       
       expect(response).to be_successful
-      expect(response.status).to eq(204)
+      expect(response.status).to eq(200)
+
+      updated_subscription = JSON.parse(response.body, symbolize_names: true)
       
-      success_message = JSON.parse(response.body, symbolize_names: true)
-      
-      expect(success_message).to eq('Success! Subscription cancelled. 😄')
+      expect(updated_subscription).to be_a Hash
+      expect(updated_subscription[:data]).to be_a Hash
+
+      new_status= updated_subscription[:data][:attributes][:status]
+
+      expect(new_status).to eq('inactive')
       expect(@subscription_1.status).to eq('inactive') 
     end
   end

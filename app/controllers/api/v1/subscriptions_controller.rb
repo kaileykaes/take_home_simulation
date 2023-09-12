@@ -11,9 +11,15 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
     render json: SubscriptionSerializer.new(subscription)
   end
 
+  def update
+    subscription = Subscription.find(params[:id])
+    subscription.update(subscription_params)
+    render json: SubscriptionSerializer.new(subscription)
+  end
+
   private
   def subscription_params
-    params.permit(:frequency, :title, :customer_id)
+    params.permit(:frequency, :title, :customer_id, :status)
   end
 
   def tea_attachment(subscription)
