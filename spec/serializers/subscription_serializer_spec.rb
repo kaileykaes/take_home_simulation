@@ -35,12 +35,12 @@ RSpec.describe 'Subscription Serializer' do
         check_hash_structure(subscription, :type, String)
         expect(subscription[:type]).to eq('subscription')
         check_hash_structure(subscription[:attributes], :cost, Float)
-        check_hash_structure(subscription[:attributes], :status, Integer)
+        check_hash_structure(subscription[:attributes], :status, String)
         check_hash_structure(subscription[:attributes], :title, String)
         check_hash_structure(subscription[:attributes], :frequency, String)
-        check_hash_structure(subscription[:attributes], :customer_id, String)
-        check_hash_structure(subscription[:attributes], :created_at, DateTime)
-        check_hash_structure(subscription[:attributes], :updated_at, DateTime)
+        check_hash_structure(subscription[:attributes], :customer_id, Integer)
+        check_hash_structure(subscription[:attributes], :created_at, String)
+        check_hash_structure(subscription[:attributes], :updated_at, String)
       end
     end
     
@@ -58,12 +58,12 @@ RSpec.describe 'Subscription Serializer' do
       expect(single_subscription[:type]).to eq('subscription')
       check_hash_structure(single_subscription, :attributes, Hash)
       check_hash_structure(single_subscription[:attributes], :cost, Float)
-      check_hash_structure(single_subscription[:attributes], :status, Integer)
+      check_hash_structure(single_subscription[:attributes], :status, String)
       check_hash_structure(single_subscription[:attributes], :title, String)
       check_hash_structure(single_subscription[:attributes], :frequency, String)
-      check_hash_structure(single_subscription[:attributes], :customer_id, String)
-      check_hash_structure(single_subscription[:attributes], :created_at, DateTime)
-      check_hash_structure(single_subscription[:attributes], :updated_at, DateTime)
+      check_hash_structure(single_subscription[:attributes], :customer_id, Integer)
+      check_hash_structure(single_subscription[:attributes], :created_at, String)
+      check_hash_structure(single_subscription[:attributes], :updated_at, String)
     end
   end
 end
