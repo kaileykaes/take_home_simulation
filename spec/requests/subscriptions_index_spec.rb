@@ -50,6 +50,7 @@ RSpec.describe 'Subscriptions Index', type: :request do
         expect(subscription_attributes).to have_key(:customer_id)
         expect(subscription_attributes).to have_key(:created_at)
         expect(subscription_attributes).to have_key(:updated_at)
+        expect(subscription_attributes).to have_key(:teas)
       end
     end
   end
