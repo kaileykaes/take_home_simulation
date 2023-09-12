@@ -1,4 +1,6 @@
 class Api::V1::SubscriptionsController < Api::V1::BaseController
+  before_action :find_subscription, only: :update
+
   def index
     subscriptions = Subscription.all.where(customer_id: params[:customer_id])
     render json: SubscriptionSerializer.new(subscriptions, is_collection: true).serializable_hash.to_json
@@ -12,12 +14,16 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
   end
 
   def update
-    subscription = Subscription.find(params[:id])
-    subscription.update(subscription_params)
-    render json: SubscriptionSerializer.new(subscription)
+    @subscription.update(subscription_params)
+    # require 'pry'; binding.pry
+    render json: SubscriptionSerializer.new(@subscription)
   end
 
   private
+  def find_subscription
+    @subscription = Subscription.find(params[:id])
+  end
+
   def subscription_params
     params.permit(:frequency, :title, :customer_id, :status)
   end
