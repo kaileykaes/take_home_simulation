@@ -24,6 +24,7 @@ RSpec.describe 'Subscriptions Index', type: :request do
       get "/api/v1/customers/#{@customer.id}/subscriptions"
 
       expect(response).to be_successful
+      expect(response.status).to eq(200)
     end
 
     it 'request returns json' do 
