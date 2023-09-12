@@ -70,7 +70,6 @@ RSpec.describe 'User Registration', type: :request do
       expect(response).to_not be_successful
       expect(response.status).to eq(422)
       expect(subscription_count).to eq(subscription_count)
-      
       error = JSON.parse(response.body, symbolize_names: true)
       
       check_hash_structure(error, :error, Hash)
@@ -79,7 +78,7 @@ RSpec.describe 'User Registration', type: :request do
       
       error_attributes = error[:error]
       expect(error_attributes[:status]).to eq(422)
-      # expect(error_attributes[:message]).to eq('Something is missing')
+      expect(error_attributes[:message]).to eq("Validation failed: Frequency can't be blank")
     end
     
     it 'throws error if no title' do 
@@ -104,7 +103,7 @@ RSpec.describe 'User Registration', type: :request do
       
       error_attributes = error[:error]
       expect(error_attributes[:status]).to eq(422)
-      # expect(error_attributes[:message]).to eq("Validation failed: Password confirmation doesn't match Password")
+      expect(error_attributes[:message]).to eq("Validation failed: Title can't be blank")
     end
   end
 end

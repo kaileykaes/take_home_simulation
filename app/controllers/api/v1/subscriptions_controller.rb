@@ -6,6 +6,7 @@ class Api::V1::SubscriptionsController < ApplicationController
 
   def create
     response.status = 201
+    require 'pry'; binding.pry
     subscription = Subscription.create!(subscription_params)
     tea_attachment(subscription)
     render json: SubscriptionSerializer.new(subscription)
