@@ -25,5 +25,33 @@ RSpec.describe 'Subscriptions Index', type: :request do
 
       expect(response).to be_successful
     end
+
+    it 'request returns json' do 
+      get "/api/v1/customers/#{@customer.id}/subscriptions"
+
+      subscriptions_collection = JSON.parse(response.body, symbolize_names: true)
+
+      expect(subscriptions_collection).to be_a Hash
+      check_hash_structure(subscriptions_collection, :data, Hash)
+
+      subscriptions = subscriptions_collection[:data]
+
+      expect(subscriptions).to be_an Array
+
+      subscriptions.each do |subscription|
+        check_hash_structure(subscription, :id, String)
+        check_hash_structure(subscription, :type, String)
+        check_hash_structure(subscription, :attributes, Hash)
+        expect(subscription[:type]).to eq('subscription')
+
+        subscription_attributes = subscription[:attributes]
+        expect(subscription_attributes).to have_key(:cost)
+        expect(subscription_attributes).to have_key(:frequency)
+        expect(subscription_attributes).to have_key(:status)
+        expect(subscription_attributes).to have_key(:customer_id)
+        expect(subscription_attributes).to have_key(:created_at)
+        expect(subscription_attributes).to have_key(:updated_at)
+      end
+    end
   end
 end
