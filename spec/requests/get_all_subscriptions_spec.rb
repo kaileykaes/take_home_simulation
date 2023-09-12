@@ -21,13 +21,13 @@ RSpec.describe 'Subscriptions Index', type: :request do
 
   describe 'happy paths' do
     it 'successfully makes request' do 
-      get "/api/v1/customers/#{@customer.id}/subscriptions"
+      get  api_v1_customer_subscriptions(@customer)
 
       expect(response).to be_successful
     end
 
     it 'request returns json' do 
-      get "/api/v1/customers/#{@customer.id}/subscriptions"
+      get  api_v1_customer_subscriptions(@customer)
 
       subscriptions_collection = JSON.parse(response.body, symbolize_names: true)
 
