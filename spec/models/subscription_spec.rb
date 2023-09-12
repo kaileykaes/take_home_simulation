@@ -1,10 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Subscription, type: :model do
-  it {should have_many(:teas).through(:subscription_teas)}
-  it {should belong_to :customer }
-  it {should define_enum_for(:status).with_values(inactive: 0, active: 1) }
-
+  it { should have_many(:teas).through(:subscription_teas) }
+  it { should belong_to :customer }
+  it { should define_enum_for(:status).with_values(inactive: 0, active: 1) }
+  it { should validate_presence_of :title }
+  it { should validate_presence_of :frequency }
+  
   describe 'methods' do 
     before(:each) do 
       @tea_1 = create(:tea, price: 10.00)
