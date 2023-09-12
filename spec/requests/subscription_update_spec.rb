@@ -10,14 +10,14 @@ RSpec.describe 'Subscription Cancellation', type: :request do
     @subscription_1 = create(:subscription, customer: @customer)
     @subscription_2 = create(:subscription, customer: @customer)
     
-    create(:subscription_tea, subscription: @subscription_1, tea: @tea_1)
-    create(:subscription_tea, subscription: @subscription_1, tea: @tea_2)
-    create(:subscription_tea, subscription: @subscription_1, tea: @tea_3)
+    create(:subscription_tea, subscription: @subscription_1, tea: tea_1)
+    create(:subscription_tea, subscription: @subscription_1, tea: tea_2)
+    create(:subscription_tea, subscription: @subscription_1, tea: tea_3)
 
-    create(:subscription_tea, subscription: @subscription_2, tea: @tea_1)
-    create(:subscription_tea, subscription: @subscription_2, tea: @tea_1)
-    create(:subscription_tea, subscription: @subscription_2, tea: @tea_2)
-    create(:subscription_tea, subscription: @subscription_2, tea: @tea_3)
+    create(:subscription_tea, subscription: @subscription_2, tea: tea_1)
+    create(:subscription_tea, subscription: @subscription_2, tea: tea_1)
+    create(:subscription_tea, subscription: @subscription_2, tea: tea_2)
+    create(:subscription_tea, subscription: @subscription_2, tea: tea_3)
   end
 
   describe 'happy path' do
@@ -26,7 +26,7 @@ RSpec.describe 'Subscription Cancellation', type: :request do
         status: 0
       }
   
-      put "/api/v1/customers/#{@customer.id}/subscriptions/#{@subscription_1}", params: params
+      put "/api/v1/customers/#{@customer.id}/subscriptions/#{@subscription_1.id}", params: params
       
       expect(response).to be_successful
       expect(response.status).to eq(204)
