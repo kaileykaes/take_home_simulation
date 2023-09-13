@@ -26,7 +26,8 @@ RSpec.describe 'Subscription Cancellation', type: :request do
       new_status= updated_subscription[:data][:attributes][:status]
       
       expect(new_status).to eq('inactive')
-      # expect(@subscription_1.status).to eq('inactive') 
+      @subscription_1.reload
+      expect(@subscription_1.status).to eq('inactive') 
     end
 
     it 'reinstates existing subscription' do 
@@ -44,10 +45,11 @@ RSpec.describe 'Subscription Cancellation', type: :request do
       expect(updated_subscription).to be_a Hash
       expect(updated_subscription[:data]).to be_a Hash
 
-      new_status= updated_subscription[:data][:attributes][:status]
+      new_status = updated_subscription[:data][:attributes][:status]
 
       expect(new_status).to eq('active')
-      # expect(@subscription_2.status).to eq('active') 
+      @subscription_2.reload
+      expect(@subscription_2.status).to eq('active') 
     end
   end
 end
