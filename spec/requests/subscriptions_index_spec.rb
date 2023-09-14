@@ -72,5 +72,25 @@ RSpec.describe 'Subscriptions Index', type: :request do
       expect(subscriptions).to be_an Array     
       expect(subscriptions).to be_empty
     end
+
+    it 'throws error if customer does not exist' do 
+      customer_id = create(:customer).id
+      bad_id = customer_id + 1 
+      expect(Customer.where(id: bad_id)).to be_empty
+
+      get "/api/v1/customers/#{bad_id}/subscriptions"
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+
+      error = JSON.parse(response.body, symbolize_names: true)
+      
+      check_hash_structure(error, :error, Hash)
+      check_hash_structure(error[:error], :status, Integer)
+      check_hash_structure(error[:error], :message, String)
+      
+      error_attributes = error[:error]
+      expect(error_attributes[:status]).to eq(404)
+      expect(error_attributes[:message]).to eq("Couldn't find Customer with 'id'=#{bad_id}")
+    end
   end
 end
