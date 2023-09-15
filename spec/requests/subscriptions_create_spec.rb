@@ -12,7 +12,7 @@ RSpec.describe 'Subscription Creation', type: :request do
       "CONTENT_TYPE" => "application/json"
     }
     @subscription_info = {
-        teas: [@tea_1, @tea_2, @tea_3],
+        teas: [@tea_1.id, @tea_2.id, @tea_3.id],
         frequency: 'fortnightly',
         title: 'That Good Good'
     }
@@ -62,7 +62,7 @@ RSpec.describe 'Subscription Creation', type: :request do
       subscription_count = Subscription.count
 
       incomplete_subscription_info = {
-        teas: [@tea_1, @tea_3], #change this 
+        teas: [@tea_1.id, @tea_3.id], #change this 
         title: 'That Good Good'
       }
       
@@ -86,7 +86,7 @@ RSpec.describe 'Subscription Creation', type: :request do
     it 'throws error if no title' do 
       incomplete_subscription_info = {
         frequency: 'monthly', 
-        teas: [@tea_1, @tea_2]
+        teas: [@tea_1.id, @tea_2.id]
       }
       
       subscription_count = Subscription.count
@@ -112,10 +112,10 @@ RSpec.describe 'Subscription Creation', type: :request do
     it 'throws error if customer does not exist' do 
       bad_id = @customer.id + 30
       expect(Customer.where(id: bad_id)).to be_empty
-
+      
       post "/api/v1/customers/#{bad_id}/subscriptions", 
       headers: @headers, params: @params, as: :json
-
+      
       expect(response).to_not be_successful
       expect(response.status).to eq(404)
       error = JSON.parse(response.body, symbolize_names: true)
@@ -128,9 +128,16 @@ RSpec.describe 'Subscription Creation', type: :request do
       expect(error_attributes[:status]).to eq(404)
       expect(error_attributes[:message]).to eq("Couldn't find Customer with 'id'=#{bad_id}")
     end
-
+    
     it 'throws error if tea does not exist' do 
+      bad_tea_id = @tea_3.id + 1
+      expect(Tea.where(id: bad_tea_id)).to be_empty
       
+      bad_tea_subscription_info = {
+        teas: [@tea_1.id, @tea_2.id, bad_tea_id],
+        frequency: 'fortnightly',
+        title: 'That Good Good'
+    }
     end
   end
 end
