@@ -138,6 +138,20 @@ RSpec.describe 'Subscription Creation', type: :request do
         frequency: 'fortnightly',
         title: 'That Good Good'
       }
+
+      post "/api/v1/customers/#{@customer.id}/subscriptions", 
+      headers: @headers, params: bad_tea_subscription_info, as: :json
+      
+      expect(response).to_not be_successful
+      expect(response.status).to eq(422)
+      error = JSON.parse(response.body, symbolize_names: true)
+      check_hash_structure(error, :error, Hash)
+      check_hash_structure(error[:error], :status, Integer)
+      check_hash_structure(error[:error], :message, String)
+      
+      error_attributes = error[:error]
+      expect(error_attributes[:status]).to eq(422)
+      expect(error_attributes[:message]).to eq("Validation failed: Tea must exist")
     end
   end
 end
