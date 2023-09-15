@@ -10,7 +10,7 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
   def create
     response.status = 201
     subscription = Subscription.create!(subscription_params)
-    tea_attachment(subscription)
+    attach_teas(subscription)
     render json: SubscriptionSerializer.new(subscription)
   end
   
@@ -32,7 +32,7 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
     params.permit(:frequency, :title, :customer_id, :status)
   end
 
-  def tea_attachment(subscription)
+  def attach_teas(subscription)
     teas.each do |tea|
       SubscriptionTea.create!(subscription_id: subscription.id, tea_id: tea)
     end
