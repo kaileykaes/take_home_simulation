@@ -52,4 +52,43 @@ RSpec.describe 'Subscription Cancellation', type: :request do
       expect(@subscription_2.status).to eq('active') 
     end
   end
+
+  describe 'sad path & edge case testing' do 
+    it 'throws error if subscription does not exist' do 
+      bad_id = @subscription_2.id + 5
+
+      expect(Subscription.where(id: bad_id)).to be_empty
+
+      patch "/api/v1/customers/#{@customer.id}/subscriptions/#{bad_id}"
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+      error = JSON.parse(response.body, symbolize_names: true)
+      
+      check_hash_structure(error, :error, Hash)
+      check_hash_structure(error[:error], :status, Integer)
+      check_hash_structure(error[:error], :message, String)
+      
+      error_attributes = error[:error]
+      expect(error_attributes[:status]).to eq(404)
+      expect(error_attributes[:message]).to eq("Couldn't find Subscription with 'id'=#{bad_id}")
+    end
+
+    it 'throws error if customer does not exist for subscription' do
+      bad_id = @customer.id + 30
+      expect(Customer.where(id: bad_id)).to be_empty
+
+      patch "/api/v1/customers/#{bad_id}/subscriptions/#{@subscription_1.id}"
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+      error = JSON.parse(response.body, symbolize_names: true)
+      
+      check_hash_structure(error, :error, Hash)
+      check_hash_structure(error[:error], :status, Integer)
+      check_hash_structure(error[:error], :message, String)
+      
+      error_attributes = error[:error]
+      expect(error_attributes[:status]).to eq(404)
+      expect(error_attributes[:message]).to eq("Couldn't find Customer with 'id'=#{bad_id}")
+    end
+  end
 end
