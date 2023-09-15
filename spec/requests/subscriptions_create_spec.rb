@@ -62,7 +62,7 @@ RSpec.describe 'Subscription Creation', type: :request do
       subscription_count = Subscription.count
 
       incomplete_subscription_info = {
-        teas: [@tea_1, @tea_3],
+        teas: [@tea_1, @tea_3], #change this 
         title: 'That Good Good'
       }
       
@@ -106,5 +106,9 @@ RSpec.describe 'Subscription Creation', type: :request do
       expect(error_attributes[:status]).to eq(422)
       expect(error_attributes[:message]).to eq("Validation failed: Title can't be blank")
     end
+
+    it 'throws error if customer does not exist'
+
+    it 'throws error if tea does not exist'
   end
 end
