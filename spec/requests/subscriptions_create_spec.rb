@@ -137,7 +137,7 @@ RSpec.describe 'Subscription Creation', type: :request do
         teas: [@tea_1.id, @tea_2.id, bad_tea_id],
         frequency: 'fortnightly',
         title: 'That Good Good'
-    }
+      }
     end
   end
 end

@@ -34,7 +34,7 @@ class Api::V1::SubscriptionsController < Api::V1::BaseController
 
   def tea_attachment(subscription)
     teas.each do |tea|
-      SubscriptionTea.create!(subscription_id: subscription.id, tea_id: tea[:id])
+      SubscriptionTea.create!(subscription_id: subscription.id, tea_id: tea)
     end
   end
 
