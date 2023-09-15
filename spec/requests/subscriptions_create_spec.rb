@@ -66,7 +66,8 @@ RSpec.describe 'Subscription Creation', type: :request do
         title: 'That Good Good'
       }
       
-      post "/api/v1/customers/#{@customer.id}/subscriptions", headers: @headers, params: incomplete_subscription_info, as: :json
+      post "/api/v1/customers/#{@customer.id}/subscriptions", headers: @headers, 
+      params: incomplete_subscription_info, as: :json
       
       expect(response).to_not be_successful
       expect(response.status).to eq(422)
@@ -90,7 +91,8 @@ RSpec.describe 'Subscription Creation', type: :request do
       
       subscription_count = Subscription.count
       
-      post "/api/v1/customers/#{@customer.id}/subscriptions", headers: @headers, params: incomplete_subscription_info, as: :json
+      post "/api/v1/customers/#{@customer.id}/subscriptions", 
+      headers: @headers, params: incomplete_subscription_info, as: :json
       
       expect(response).to_not be_successful
       expect(response.status).to eq(422)
@@ -107,8 +109,28 @@ RSpec.describe 'Subscription Creation', type: :request do
       expect(error_attributes[:message]).to eq("Validation failed: Title can't be blank")
     end
 
-    it 'throws error if customer does not exist'
+    it 'throws error if customer does not exist' do 
+      bad_id = @customer.id + 30
+      expect(Customer.where(id: bad_id)).to be_empty
 
-    it 'throws error if tea does not exist'
+      post "/api/v1/customers/#{bad_id}/subscriptions", 
+      headers: @headers, params: @params, as: :json
+
+      expect(response).to_not be_successful
+      expect(response.status).to eq(404)
+      error = JSON.parse(response.body, symbolize_names: true)
+      
+      check_hash_structure(error, :error, Hash)
+      check_hash_structure(error[:error], :status, Integer)
+      check_hash_structure(error[:error], :message, String)
+      
+      error_attributes = error[:error]
+      expect(error_attributes[:status]).to eq(404)
+      expect(error_attributes[:message]).to eq("Couldn't find Customer with 'id'=#{bad_id}")
+    end
+
+    it 'throws error if tea does not exist' do 
+      
+    end
   end
 end
